@@ -1,7 +1,6 @@
 package calculatecalendar
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/recokioshi/orangeWorkSchedule-back/model"
@@ -13,12 +12,11 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-
-	valid, calendarInput := model.GetCalculationInput(w, r)
-
+	valid, _ := model.GetCalculationInput(w, r)
 	if valid {
-		fmt.Println("calendarInput: ", calendarInput)
+		w.WriteHeader(http.StatusOK)
 	} else {
-		fmt.Println("bad request")
+		w.WriteHeader(http.StatusInternalServerError)
 	}
+
 }

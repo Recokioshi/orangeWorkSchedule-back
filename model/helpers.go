@@ -29,6 +29,11 @@ func decodeJSONBody(w http.ResponseWriter, r *http.Request, dst interface{}) err
 		}
 	}
 
+	if r.Body == nil {
+		msg := "Request body must not be empty"
+		return &malformedRequest{status: http.StatusBadRequest, msg: msg}
+	}
+
 	r.Body = http.MaxBytesReader(w, r.Body, 1048576)
 
 	dec := json.NewDecoder(r.Body)
